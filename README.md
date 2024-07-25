@@ -6,12 +6,12 @@ both do and do not exhibit the problem.
 ## Reproduced on:
 
 ```
- macOS: Sonoma 14.1
+ macOS: Sonoma 14.5
  Model Name: MacBook Pro
  Chip: Apple M1 Pro
 ```
 
-Does not reproduce on Intel or AMD GPUs running macOS 14.1.
+Does not reproduce on Intel or AMD GPUs running macOS 14.5. // TODO verify
 
 ## Building and Running
 
@@ -22,10 +22,11 @@ make
 
 This should produce:
 ```
-output = 0
+output = 0xc0ffee
 ```
 
+// TODO verify
 But on Apple M1 running macOS 14.1 instead produces:
 ```
-output = -992
+output = 0
 ```

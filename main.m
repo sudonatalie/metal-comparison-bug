@@ -11,7 +11,7 @@ bool run() {
     return false;
   }
 
-  id<MTLFunction> entrypoint = [library newFunctionWithName:@"entrypoint"];
+  id<MTLFunction> entrypoint = [library newFunctionWithName:@"tint_symbol_11"];
   if (entrypoint == nil) {
     NSLog(@"Failed to find the entrypoint function.");
     return false;
@@ -29,7 +29,9 @@ bool run() {
     return false;
   }
 
-  id<MTLBuffer> output = [device newBufferWithLength:4 options:MTLResourceStorageModeShared];
+  id<MTLBuffer> globals = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
+  id<MTLBuffer> input = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
+  id<MTLBuffer> output = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
 
   id<MTLCommandBuffer> commandBuffer = [command_queue commandBuffer];
   if (commandBuffer == nil) {
@@ -44,9 +46,11 @@ bool run() {
   }
 
   MTLSize gridSize = MTLSizeMake(1, 1, 1);
-  MTLSize groupSize = MTLSizeMake(1, 1, 1);
+  MTLSize groupSize = MTLSizeMake(1024, 1, 1);
   [computeEncoder setComputePipelineState:pipeline];
-  [computeEncoder setBuffer:output offset:0 atIndex:0];
+  [computeEncoder setBuffer:globals offset:0 atIndex:0];
+  [computeEncoder setBuffer:input offset:0 atIndex:2];
+  [computeEncoder setBuffer:output offset:0 atIndex:1];
   [computeEncoder dispatchThreads:gridSize threadsPerThreadgroup:groupSize];
   [computeEncoder endEncoding];
 
@@ -54,8 +58,8 @@ bool run() {
   [commandBuffer waitUntilCompleted];
 
   uint32_t *result = output.contents;
-  printf("output = %d\n", result[0]);
-  return (*result == 0);
+  printf("output = %#x\n", result[0]);
+  return (*result == 0xC0FFEE);
 }
 
 int main(int argc, const char *argv[]) {
