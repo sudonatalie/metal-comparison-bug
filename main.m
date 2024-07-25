@@ -11,7 +11,7 @@ bool run() {
     return false;
   }
 
-  id<MTLFunction> entrypoint = [library newFunctionWithName:@"tint_symbol_11"];
+  id<MTLFunction> entrypoint = [library newFunctionWithName:@"entrypoint"];
   if (entrypoint == nil) {
     NSLog(@"Failed to find the entrypoint function.");
     return false;
@@ -29,9 +29,8 @@ bool run() {
     return false;
   }
 
-  id<MTLBuffer> globals = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
-  id<MTLBuffer> input = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
-  id<MTLBuffer> output = [device newBufferWithLength:65536 options:MTLResourceStorageModeShared];
+  id<MTLBuffer> input = [device newBufferWithLength:276 options:MTLResourceStorageModeShared]; // TODO Do I have to put stuff in here?
+  id<MTLBuffer> output = [device newBufferWithLength:98304 options:MTLResourceStorageModeShared];
 
   id<MTLCommandBuffer> commandBuffer = [command_queue commandBuffer];
   if (commandBuffer == nil) {
@@ -48,8 +47,7 @@ bool run() {
   MTLSize gridSize = MTLSizeMake(1, 1, 1);
   MTLSize groupSize = MTLSizeMake(1024, 1, 1);
   [computeEncoder setComputePipelineState:pipeline];
-  [computeEncoder setBuffer:globals offset:0 atIndex:0];
-  [computeEncoder setBuffer:input offset:0 atIndex:2];
+  [computeEncoder setBuffer:input offset:0 atIndex:0];
   [computeEncoder setBuffer:output offset:0 atIndex:1];
   [computeEncoder dispatchThreads:gridSize threadsPerThreadgroup:groupSize];
   [computeEncoder endEncoding];
