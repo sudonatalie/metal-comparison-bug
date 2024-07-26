@@ -1,7 +1,9 @@
 # Reproducer for a Metal bug affecting comparison
 
-See `shader.metal` for the MSL code, along with comments about alternatives that
-both do and do not exhibit the problem.
+See `shader.metal` for the MSL code, along with comments prefixed by `!!!!`
+for alternatives that do not exhibit the problem.
+
+This issue was originally reported to Chrome WebGPU at: crbug.com/349653205
 
 ## Reproduced on:
 
@@ -11,7 +13,7 @@ both do and do not exhibit the problem.
  Chip: Apple M1 Pro
 ```
 
-Does not reproduce on Intel or AMD GPUs running macOS 14.5. // TODO verify
+Does not reproduce on Intel or AMD GPUs running macOS.
 
 ## Building and Running
 
@@ -25,8 +27,7 @@ This should produce:
 output = 0xc0ffee
 ```
 
-// TODO verify
-But on Apple M1 running macOS 14.1 instead produces:
+But on Apple M1 running macOS 14.5 instead produces:
 ```
 output = 0
 ```
