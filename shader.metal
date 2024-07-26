@@ -21,7 +21,7 @@ kernel void entrypoint(device Input* input [[buffer(0)]], device Output* output 
   float4 v14 = 0.0f;
   float4 v15 = 0.0f;
   float4 v16 = 0.0f;
-  int2 v17 = int2(0, 1);
+  int2 v17 = 0;
   float4 v18 = 0.0f;
   float3 v19 = 0.0f;
   float4 v20 = 0.0f;
@@ -38,7 +38,7 @@ kernel void entrypoint(device Input* input [[buffer(0)]], device Output* output 
   float4 v31 = 0.0f;
   float4 v32 = 0.0f;
   float4 v33 = 0.0f;
-  uint v34 = idx >> 5u;
+  uint v34 = 0u;
   int v35 = 0;
   float4 v36 = 0.0f;
   
@@ -52,35 +52,32 @@ kernel void entrypoint(device Input* input [[buffer(0)]], device Output* output 
   v28 = float4(input->arr[max(39u, input->g2)], input->arr[max(36u, input->g2)], input->arr[max(37u, input->g2)], input->arr[max(38u, input->g2)]);
   v29 = float4(input->arr[max(40u, input->g2)], input->arr[max(41u, input->g2)], input->arr[max(42u, input->g2)], input->arr[max(43u, input->g2)]);
 
-  v30[2] = input->arr[max(44u, input->g2)];
-  v31 = float4(v22.yzw, v31[3]);
-  v22 = float4(v22[0], v23.zw, v22[3]);
-  v23[2] = v24[3];
+  v31 = float4(v22.yzw, v31.w);
+  v22 = float4(v22.x, v23.zw, v22.w);
   v19 = v25.yzw;
-  v25 = float4(v25[0], v26.zw, v25[3]);
-  v26[2] = v27[3];
-  v32 = float4(v28.yzw, v32[3]);
-  v28 = float4(v28[0], v29.xy, v28[3]);
+  v25 = float4(v25.x, v26.zw, v25.w);
+  v26.z = v27.w;
+  v32 = float4(v28.yzw, v32.w);
+  v28 = float4(v28.x, v29.xy, v28.w);
 
   if (idx >= input->g2) {
-    v29 = float4(input->arr[4u], input->arr[5u], input->arr[6u], input->arr[7u]);
     v33 = float4(v29.xz, v33.zw);
   }
 
-  volatile bool tint_volatile_true = true;
-  if (tint_volatile_true) {
+  volatile bool cond = true;
+  if (cond) {
     while(true) {
       if ((v34 >= input->g2)) {
         break;
       }
-      v35 = as_type<int>((as_type<uint>(v17[0]) & 255u));
+      v35 = as_type<int>((as_type<uint>(v17.x) & 255u));
       if (v35 == 255) {
         v34 = (v34 + 1u);
         continue;
       }
       if (v35 == 0) {
-        v17[0] = as_type<int>(select(0u, 4294967295u, (1.0f >= dot(v33.xyz, v33.xyz))));
-        if ((v17[0] != 0)) {
+        v17.x = select(0, 42945, 1.0f >= dot(v33.xyz, v33.xyz));
+        if ((v17.x != 0)) {
           break;
         }
       }
@@ -88,41 +85,38 @@ kernel void entrypoint(device Input* input [[buffer(0)]], device Output* output 
   }
 
   if (0.0f < input->g1.x) {
-    v18 = float4((-(v18.xyz) + input->g1.xyz), v18[3]);
+    v18 = float4((-(v18.xyz) + input->g1.xyz), v18.w);
     v18 = (input->g1.yyzx * v18.zzzz);
-    if ((as_type<int>(input->g2) >= 2)) {
+    if (as_type<int>(input->g2) >= 2) {
       v36 = (v18.wyzy * v18.wwzy);
       v14 = float4((v18.zz * v18.yw), v14.zw);
-      v15[0] = (v36[1] * 1.09f);
-      float3 const v38 = (v31.xyz * v14.xxx);
-      v14 = float4(v38[0], v14[1], v38.yz);
-      float3 const v39 = ((v15.xxx * v21.xyz) + v14.xzw);
-      v14 = float4(v39[0], v14[1], v39.yz);
-      v16[0] = ((-(v18[3]) * v18[3]) + v15[0]);
-      float3 const v40 = ((v16.xxx * v22.xyz) + v14.xzw);
-      v14 = float4(v40[0], v14[1], v40.yz);
-      v14 = float4(((v14.yyy * v23.xyz) + v14.xzw), v14[3]);
-      v14 = float4(((v16.xxx * v24.xyz) + v14.xyz), v14[3]);
-      v20 = float4((v20.xyz + v14.xyz), v20[3]);
-      if ((as_type<int>(input->g2) >= 3)) {
-        v18 = float4((v18.xx * v18.yw), v18.zw);
-        v36 = float4(((v18.xxx * v27.xyz) + ((v18.xxx * v26.xyz) + ((v18.xxx * v19) + (v25.xyz * float3(v36[0], v36[0], v36[0]))))), v36[3]);
-        v36 = float4(((v18.yyy * v32.xyz) + v36.xyz), v36[3]);
-        v18 = float4((v18.zw), v18.zw);
-        v18[0] = (((v18[3] * v18[3]) + -(v36[3])) * (((-(v36[3]) * 3.0f) + ((-(v36[0]) * 3.0f) + v15[0])) * v18[2]));
-        v36 = float4(((v18.xxx * v28.xyz) + v36.xyz), v36[3]);
-        v18[0] = (((v18[3] * v18[3]) + -(v36[1])) * v18[1]);
-        v18 = float4(((v18.xxx * v30.xyz) + v36.xyz), v18[3]);
-        v20 = float4((v18.xyz + v20.xyz), v20[3]);
+      v15.x = (v36.y * 1.09f);
+      float3 const v38 = v31.xyz * v14.xxx;
+      v14 = float4(v38.x, v14.y, v38.yz);
+      float3 const v39 = (v15.xxx * v21.xyz) + v14.xzw;
+      v14 = float4(v39.x, v14.y, v39.yz);
+      v16.x = (-(v18.w) * v18.w) + v15.x;
+      float3 const v40 = (v16.xxx * v22.xyz) + v14.xzw;
+      v14 = float4(v40.x, v14.y, v40.yz);
+      v14 = float4(((v14.yyy * v23.xyz) + v14.xzw), v14.w);
+      v14 = float4(((v16.xxx * v24.xyz) + v14.xyz), v14.w);
+      v20 = float4((v20.xyz + v14.xyz), v20.w);
+      if (as_type<int>(input->g2) >= 3) {
+        v36 = float4(((v18.xxx * v27.xyz) + ((v18.xxx * v26.xyz) + ((v18.xxx * v19) + (v25.xyz * v36.xxx)))), v36.w);
+        v36 = float4(((v18.yyy * v32.xyz) + v36.xyz), v36.w);
+        v18.x = (((v18.w * v18.w) + -(v36.w)) * (((-(v36.w) * 3.0f) + ((-(v36.x) * 3.0f) + v15.x)) * v18.z));
+        v36 = float4(((v18.xxx * v28.xyz) + v36.xyz), v36.w);
+        v18 = float4(((v18.xxx * v30.xyz) + v36.xyz), v18.w);
+        v20 = float4((v18.xyz + v20.xyz), v20.w);
       }
     }
     
-    res[0] = as_type<int>(v20[0]) + as_type<int>(v20[1]);
-    res[1] = as_type<int>(v20[2]) + as_type<int>(v20[3]);
+    res.x = as_type<int>(v20.x) + as_type<int>(v20.y);
+    res.y = as_type<int>(v20.z) + as_type<int>(v20.w);
   }
 
   output->buffer[idx][0] = 0xC0FFEEu;
   // !!!! Commenting out the following 2 lines prevents the bug from appearing
-  output->buffer[idx][1] = as_type<uint>(res[0]);
-  output->buffer[idx][2] = as_type<uint>(res[1]);
+  output->buffer[idx][1] = as_type<uint>(res.x);
+  output->buffer[idx][2] = as_type<uint>(res.y);
 }
