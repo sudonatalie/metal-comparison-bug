@@ -3,7 +3,8 @@
 See `shader.metal` for the MSL code, along with comments prefixed by `!!!!`
 for alternatives that do not exhibit the problem.
 
-This issue was originally reported to Chrome WebGPU at: crbug.com/349653205
+This issue was originally reported to Chrome WebGPU at:
+[crbug.com/349653205](https://crbug.com/349653205)
 
 ## Reproduced on:
 
